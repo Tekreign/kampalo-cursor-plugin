@@ -16,7 +16,7 @@ After the plugin is listed in the [xAI marketplace](https://github.com/xai-org/p
 Until then, install from the plugin repo:
 
 ```text
-grok plugin install yasirismail009/kampalo-cursor-plugin
+grok plugin install Tekreign/kampalo-cursor-plugin
 ```
 
 Set `KAMPALO_MCP_API_KEY` to the same secret as backend `MCP_API_KEY`. On first tool use Grok calls `https://be.kampalo.com/mcp` with `Authorization: Bearer …`.
@@ -107,7 +107,7 @@ Stop MCP and ask again. The bot must not claim a pause or a saved rule.
 Remote source, SHA-pinned. Do not vendor files into `xai-org/plugin-marketplace`. After pushing this folder to a public repo:
 
 ```bash
-git ls-remote https://github.com/yasirismail009/kampalo-cursor-plugin.git HEAD
+git ls-remote https://github.com/Tekreign/kampalo-cursor-plugin.git HEAD
 ```
 
 Add one object to their `.grok-plugin/marketplace.json`:
@@ -119,7 +119,7 @@ Add one object to their `.grok-plugin/marketplace.json`:
   "category": "development",
   "source": {
     "source": "url",
-    "url": "https://github.com/yasirismail009/kampalo-cursor-plugin.git",
+    "url": "https://github.com/Tekreign/kampalo-cursor-plugin.git",
     "sha": "<40-char lowercase commit sha>"
   },
   "homepage": "https://app.kampalo.com",
