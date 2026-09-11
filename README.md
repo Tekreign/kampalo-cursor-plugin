@@ -1,17 +1,44 @@
-# Kampalo Grok Bot / Cursor plugin
+# Kampalo plugin for Grok Build
 
-Grok Bot (and Cursor) can **read Kampalo data and run the automations Kampalo already has**: pause proposals, ads/SEO alerts, ROAS pause rules, and report JSON.
+[Grok Build](https://github.com/xai-org/plugin-marketplace) plugin that connects to Kampalo’s hosted FastMCP server. Grok can **read synced ads/SEO/GA4 data** and run the automations Kampalo already has: pause proposals, ads/SEO alerts, ROAS pause rules, and report JSON.
 
-Built from the [Grok Bot plugin walkthrough](https://www.usenotra.com/blog/how-to-create-a-grok-bot-plugin) and Cursor’s [plugin](https://cursor.com/docs/plugins) / [MCP](https://cursor.com/docs/mcp) docs.
+This plugin does not add product APIs. It wires Grok to `python manage.py run_mcp_server`:
 
-This plugin does **not** add new product APIs. It connects to FastMCP (`python manage.py run_mcp_server`) which now exposes:
-
-- Read tools from `marketing/agents/suites.py` (synced DB)
+- Read tools from `marketing/agents/suites.py` (synced Postgres)
 - `automate_*` tools from `marketing/agents/automation_backend.py` (same services as `/api/marketing/actions/`, alert rules, automation rules, reports)
 
-## What Grok Bot can do
+In-app Kai (LangGraph) stays **read-only**. Only this MCP catalog has `automate_*`.
 
-With MCP up and a Kampalo `user_id` or email:
+## Installation
+
+After the plugin is listed in the [xAI marketplace](https://github.com/xai-org/plugin-marketplace), in Grok Build run `/plugin`, search **Kampalo**, and install.
+
+Until then, install from the plugin repo:
+
+```text
+grok plugin install yasirismail009/kampalo-cursor-plugin
+```
+
+Set `KAMPALO_MCP_API_KEY` to the same secret as backend `MCP_API_KEY`. On first tool use Grok calls `https://be.kampalo.com/mcp` with `Authorization: Bearer …`.
+
+Every tool also needs a Kampalo `user_id` or `user_email`. Ask the user if neither is known.
+
+## Network and credentials
+
+| What | Value |
+| --- | --- |
+| MCP endpoint | `https://be.kampalo.com/mcp` (streamable HTTP) |
+| Auth | `Authorization: Bearer ${KAMPALO_MCP_API_KEY}` |
+| Secret | Same as backend `MCP_API_KEY`. Required when the server has auth enabled (`DEBUG=False`). |
+| Not this URL | `https://be.kampalo.com/api` — Django REST, not MCP |
+
+The plugin talks only to that MCP host. It does not read local `.env` / SSH keys or send telemetry elsewhere.
+
+Local Compose (`docker compose up`) exposes MCP at **http://127.0.0.1:8100/mcp**. To point Grok at it, override the server URL in `.mcp.json` for that session.
+
+## What Grok can do
+
+With MCP up and a Kampalo user who can mutate data (admin, or enterprise manager/marketer) for confirms. Alert/automation rule writes are **admin only**.
 
 1. Brief Google vs Meta, SEO, GA4, and organic Page/IG from synced stats
 2. Propose pausing a weak selected campaign
@@ -27,40 +54,27 @@ With MCP up and a Kampalo `user_id` or email:
 - Act as a view-only user for confirms or rule admin
 - Invent metrics if MCP is down or the DB has no rows
 
-In-app Kai (LangGraph) stays **read-only**. Only this MCP catalog has `automate_*`.
-
 ## Layout
 
 ```text
 plugins/kampalo-grok-bot/
-├── .cursor-plugin/plugin.json
+├── .grok-plugin/plugin.json
+├── .mcp.json
 ├── skills/campaign-performance-brief/
 ├── skills/automate-kampalo-work/
-├── mcp.json
 ├── assets/logo.svg
+├── LICENSE
 └── README.md
 ```
 
-## Prerequisites
+## Skills
 
-1. Backend + Postgres with synced selected campaigns (`docker compose up` includes `mcp` on **http://127.0.0.1:8100/mcp**).
-2. `MCP_API_KEY` in `backend/.env` if the port is reachable beyond localhost.
-3. A user who can mutate data (admin, or enterprise manager/marketer) for confirms. Alert/automation rule writes are **admin only**.
-
-There is no public MCP hostname in this repo. Grok Bot needs a host-reachable URL of `run_mcp_server`. Do not point at `https://be.kampalo.com` unless that host serves FastMCP at `/mcp`.
-
-## Configure
-
-| Variable | Example |
+| Skill | When |
 | --- | --- |
-| `KAMPALO_MCP_URL` | `http://127.0.0.1:8100/mcp` |
-| `KAMPALO_MCP_API_KEY` | same as `MCP_API_KEY` |
+| `campaign-performance-brief` | Read synced Google Ads, Meta Ads, Search Console, GA4, Page/IG |
+| `automate-kampalo-work` | Propose/confirm pauses, alerts, ROAS rules, report JSON |
 
-## Test locally
-
-Junction/symlink this folder to `~/.cursor/plugins/local/kampalo`, reload Cursor, start `mcp`.
-
-### Test tasks
+## Example prompts
 
 **Read**
 
@@ -88,6 +102,34 @@ Expect `automate_upsert_automation_rule` with `dry_run=true`, `is_active=false`.
 
 Stop MCP and ask again. The bot must not claim a pause or a saved rule.
 
-## Submit
+## xAI marketplace entry (when submitting)
 
-Push a public repo of this plugin folder and submit at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish).
+Remote source, SHA-pinned. Do not vendor files into `xai-org/plugin-marketplace`. After pushing this folder to a public repo:
+
+```bash
+git ls-remote https://github.com/yasirismail009/kampalo-cursor-plugin.git HEAD
+```
+
+Add one object to their `.grok-plugin/marketplace.json`:
+
+```json
+{
+  "name": "kampalo",
+  "description": "Kampalo ads and SEO workspace for Grok Build. Brief synced Google Ads, Meta Ads, GA4, and Search Console; propose and confirm campaign pauses; manage ads/SEO alerts and ROAS pause rules; generate report JSON.",
+  "category": "development",
+  "source": {
+    "source": "url",
+    "url": "https://github.com/yasirismail009/kampalo-cursor-plugin.git",
+    "sha": "<40-char lowercase commit sha>"
+  },
+  "homepage": "https://app.kampalo.com",
+  "keywords": ["kampalo", "kampalo ads", "kampalo google ads", "kampalo meta ads", "kampalo kai"],
+  "domains": ["kampalo.com", "app.kampalo.com", "be.kampalo.com"]
+}
+```
+
+Then in that fork: `python3 scripts/generate-plugin-index.py` and `python3 scripts/validate-catalog.py`. xAI flags branded plugins sourced from a personal GitHub account — move the plugin repo under a Kampalo org before the PR if possible.
+
+## License
+
+MIT

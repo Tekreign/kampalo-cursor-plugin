@@ -1,6 +1,6 @@
 ---
 name: automate-kampalo-work
-description: Automate Kampalo marketing work from synced data — propose or confirm campaign pauses, manage alert and ROAS automation rules, and generate report JSON. Use when the user asks Grok Bot to act on Kampalo, set alerts, pause weak campaigns, schedule rules, or generate a report.
+description: Automate Kampalo marketing work from synced data — propose or confirm campaign pauses, manage alert and ROAS automation rules, and generate report JSON. Use when the user asks Grok Build to act on Kampalo, set alerts, pause weak campaigns, schedule rules, or generate a report.
 ---
 
 # Automate Kampalo work

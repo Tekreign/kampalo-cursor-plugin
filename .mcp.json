@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "kampalo": {
+      "type": "http",
+      "url": "https://be.kampalo.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${KAMPALO_MCP_API_KEY}"
+      },
+      "note": "Kampalo hosted FastMCP (streamable HTTP). Set KAMPALO_MCP_API_KEY to the same value as backend MCP_API_KEY. Production nginx proxies /mcp to the mcp process on port 8100 — this is not /api. Local Compose: http://127.0.0.1:8100/mcp."
+    }
+  }
+}
