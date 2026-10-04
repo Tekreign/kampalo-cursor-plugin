@@ -6,9 +6,12 @@
     "name": "Kampalo",
     "url": "https://kampalo.com"
   },
-  "homepage": "https://kampalo.com/kai/mcp",
+  "homepage": "https://kampalo.com",
   "repository": "https://github.com/Tekreign/kampalo-cursor-plugin",
   "privacyPolicyUrl": "https://kampalo.com/privacy",
+  "termsOfServiceUrl": "https://kampalo.com/terms",
+  "supportUrl": "https://kampalo.com/help",
+  "documentationUrl": "https://kampalo.com/kai/mcp",
   "license": "MIT",
   "keywords": [
     "kampalo",
