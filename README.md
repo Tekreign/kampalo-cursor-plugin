@@ -47,6 +47,20 @@ The same repo ships Cursor packaging next to the Grok files. Both use the same `
 
 Without the plugin, the same server works from a project or user `~/.cursor/mcp.json` by copying the `kampalo` entry from `mcp.json`.
 
+## Claude Code
+
+This repo is also a Claude Code marketplace (`.claude-plugin/marketplace.json`, plugin at the repo root). Claude Code reads the shared `.mcp.json` and `skills/`.
+
+1. Set `KAMPALO_MCP_API_KEY` to your `kmp_…` key (see Cursor step 2), then start Claude Code.
+2. Add the marketplace and install:
+
+   ```text
+   /plugin marketplace add Tekreign/kampalo-cursor-plugin
+   /plugin install kampalo@kampalo
+   ```
+
+3. Run `/mcp` and check `kampalo` is connected.
+
 ## Network and credentials
 
 | What | Value |
@@ -86,6 +100,8 @@ kampalo-cursor-plugin/
 ├── .mcp.json
 ├── .cursor-plugin/plugin.json
 ├── mcp.json
+├── .claude-plugin/plugin.json
+├── .claude-plugin/marketplace.json
 ├── skills/campaign-performance-brief/
 ├── skills/automate-kampalo-work/
 ├── assets/logo.svg
