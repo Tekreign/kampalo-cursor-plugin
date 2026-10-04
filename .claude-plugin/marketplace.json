@@ -1,6 +1,6 @@
 {
   "name": "kampalo",
-  "description": "Kampalo marketing workspace for Claude Code: synced ads, SEO, and GA4 data plus confirmed campaign automations over Kampalo's hosted MCP server.",
+  "description": "Kampalo marketing workspace for Claude: synced ads, SEO, GA4 and Shopify data plus confirmed campaign automations over Kampalo's hosted MCP server.",
   "owner": {
     "name": "Kampalo",
     "url": "https://kampalo.com"
@@ -8,10 +8,16 @@
   "plugins": [
     {
       "name": "kampalo",
-      "source": "./",
-      "description": "Brief synced Google Ads, Meta Ads, GA4, and Search Console; propose and confirm campaign pauses; manage ads and SEO alerts and ROAS pause rules; generate report JSON.",
+      "source": "./claude",
+      "description": "Brief synced Google Ads, Meta Ads, GA4, Search Console and Shopify performance; propose and confirm campaign pauses and budget changes; manage alerts and ROAS pause rules; generate reports.",
       "category": "integrations",
-      "tags": ["marketing", "ads", "seo", "analytics", "mcp"]
+      "tags": [
+        "marketing",
+        "ads",
+        "seo",
+        "analytics",
+        "mcp"
+      ]
     }
   ]
 }

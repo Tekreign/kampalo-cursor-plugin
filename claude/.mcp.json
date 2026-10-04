@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "kampalo": {
+      "type": "http",
+      "url": "https://be.kampalo.com/mcp"
+    }
+  }
+}

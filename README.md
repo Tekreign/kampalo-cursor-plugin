@@ -47,19 +47,18 @@ The same repo ships Cursor packaging next to the Grok files. Both use the same `
 
 Without the plugin, the same server works from a project or user `~/.cursor/mcp.json` by copying the `kampalo` entry from `mcp.json`.
 
-## Claude Code
+## Claude (claude.ai, Cowork, Claude Code)
 
-This repo is also a Claude Code marketplace (`.claude-plugin/marketplace.json`, plugin at the repo root). Claude Code reads the shared `.mcp.json` and `skills/`.
+The Claude plugin lives in [`claude/`](claude/) and is what the Claude directory lists. It uses OAuth: Claude asks you to sign in to Kampalo the first time, so there is no `KAMPALO_MCP_API_KEY` to set. Its skills are a copy of `skills/` without the `user_id` / `user_email` step, because the signed-in account is applied automatically. Keep both copies in sync when you edit a skill.
 
-1. Set `KAMPALO_MCP_API_KEY` to your `kmp_…` key (see Cursor step 2), then start Claude Code.
-2. Add the marketplace and install:
+Install in Claude Code from this repo's marketplace (`.claude-plugin/marketplace.json` points at `./claude`):
 
-   ```text
-   /plugin marketplace add Tekreign/kampalo-cursor-plugin
-   /plugin install kampalo@kampalo
-   ```
+```text
+/plugin marketplace add Tekreign/kampalo-cursor-plugin
+/plugin install kampalo@kampalo
+```
 
-3. Run `/mcp` and check `kampalo` is connected.
+Run `/mcp`, choose `kampalo`, and sign in to Kampalo when prompted.
 
 ## Network and credentials
 
