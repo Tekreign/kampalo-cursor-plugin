@@ -19,9 +19,33 @@ Until then, install from the plugin repo:
 grok plugin install Tekreign/kampalo-cursor-plugin
 ```
 
-Set `KAMPALO_MCP_API_KEY` to the same secret as backend `MCP_API_KEY`. On first tool use Grok calls `https://be.kampalo.com/mcp` with `Authorization: Bearer …`.
+Set `KAMPALO_MCP_API_KEY` to your personal `kmp_…` key from Kampalo **Settings → API Keys** (Starter and Enterprise). On first tool use Grok calls `https://be.kampalo.com/mcp` with `Authorization: Bearer …`.
 
-Every tool also needs a Kampalo `user_id` or `user_email`. Ask the user if neither is known.
+Every tool also needs a Kampalo `user_id` or `user_email`. Ask the user if neither is known. A personal key already binds your user, so you can omit both.
+
+## Cursor
+
+The same repo ships Cursor packaging next to the Grok files. Both use the same `skills/` and the same MCP server.
+
+| Grok Build | Cursor |
+| --- | --- |
+| `.grok-plugin/plugin.json` | `.cursor-plugin/plugin.json` |
+| `.mcp.json` (`${KAMPALO_MCP_API_KEY}`) | `mcp.json` (`${env:KAMPALO_MCP_API_KEY}`) |
+
+1. Generate a key in Kampalo **Settings → API Keys**.
+2. Set it in the environment Cursor starts from, then restart Cursor:
+
+   ```powershell
+   setx KAMPALO_MCP_API_KEY "kmp_..."
+   ```
+
+   ```bash
+   export KAMPALO_MCP_API_KEY="kmp_..."   # in ~/.zshrc or ~/.bashrc
+   ```
+
+3. Install the plugin from this repo in Cursor. Check **Settings → MCP** shows `kampalo` connected, then ask: *Brief Google vs Meta in Kampalo.*
+
+Without the plugin, the same server works from a project or user `~/.cursor/mcp.json` by copying the `kampalo` entry from `mcp.json`.
 
 ## Network and credentials
 
@@ -29,7 +53,7 @@ Every tool also needs a Kampalo `user_id` or `user_email`. Ask the user if neith
 | --- | --- |
 | MCP endpoint | `https://be.kampalo.com/mcp` (streamable HTTP) |
 | Auth | `Authorization: Bearer ${KAMPALO_MCP_API_KEY}` |
-| Secret | Same as backend `MCP_API_KEY`. Required when the server has auth enabled (`DEBUG=False`). |
+| Secret | Personal `kmp_…` key (Settings → API Keys), or the operator `MCP_API_KEY`. Required when the server has auth enabled (`DEBUG=False`). |
 | Not this URL | `https://be.kampalo.com/api` — Django REST, not MCP |
 
 The plugin talks only to that MCP host. It does not read local `.env` / SSH keys or send telemetry elsewhere.
@@ -57,9 +81,11 @@ With MCP up and a Kampalo user who can mutate data (admin, or enterprise manager
 ## Layout
 
 ```text
-plugins/kampalo-grok-bot/
+kampalo-cursor-plugin/
 ├── .grok-plugin/plugin.json
 ├── .mcp.json
+├── .cursor-plugin/plugin.json
+├── mcp.json
 ├── skills/campaign-performance-brief/
 ├── skills/automate-kampalo-work/
 ├── assets/logo.svg

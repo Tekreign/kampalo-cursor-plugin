@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "kampalo": {
+      "type": "http",
+      "url": "https://be.kampalo.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:KAMPALO_MCP_API_KEY}"
+      }
+    }
+  }
+}
