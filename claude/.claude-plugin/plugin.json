@@ -8,6 +8,7 @@
   },
   "homepage": "https://kampalo.com/kai/mcp",
   "repository": "https://github.com/Tekreign/kampalo-cursor-plugin",
+  "privacyPolicyUrl": "https://kampalo.com/privacy",
   "license": "MIT",
   "keywords": [
     "kampalo",
