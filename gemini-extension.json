@@ -1,0 +1,11 @@
+{
+  "name": "kampalo",
+  "version": "0.3.0",
+  "description": "Brief synced Google Ads, Meta Ads, GA4 and Search Console; propose and confirm campaign pauses; manage ads and SEO alerts and ROAS pause rules; generate report JSON.",
+  "mcpServers": {
+    "kampalo": {
+      "httpUrl": "https://be.kampalo.com/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
