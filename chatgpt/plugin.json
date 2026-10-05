@@ -1,0 +1,101 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "kampalo",
+  "version": "0.4.0",
+  "description": "Brief synced Google Ads, Meta Ads, GA4, Search Console and Shopify performance in Kampalo; propose and confirm campaign pauses and budget changes; manage ads and SEO alerts and ROAS pause rules.",
+  "author": {
+    "name": "Kampalo",
+    "email": "connect@tekreign.com",
+    "url": "https://kampalo.com"
+  },
+  "homepage": "https://kampalo.com",
+  "repository": "https://github.com/Tekreign/kampalo-cursor-plugin",
+  "license": "MIT",
+  "keywords": ["marketing", "google ads", "meta ads", "ga4", "search console", "shopify", "roas"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Kampalo",
+        "shortDescription": "Ads & analytics for marketers",
+        "longDescription": "Kampalo brings your synced marketing data into ChatGPT. Ask how your Google Ads and Meta Ads campaigns are doing, compare ROAS across platforms, check GA4 traffic and checkout funnels, review Search Console queries and Lighthouse audits, and see your Shopify store overview.\n\nKampalo can also act on what it finds. It proposes campaign pauses and budget changes that only run after you confirm them, and it manages your ads and SEO alert rules and ROAS pause rules within the permissions of your role.\n\nKampalo only reads data from the Google, Meta and Shopify accounts you have connected in Kampalo. Requires a Kampalo Starter or Enterprise plan.",
+        "developerName": "Kampalo",
+        "category": "Business",
+        "capabilities": [
+          "Read ads and analytics data",
+          "Propose campaign changes",
+          "Manage alert rules"
+        ],
+        "websiteURL": "https://kampalo.com",
+        "supportURL": "https://kampalo.com/help",
+        "privacyPolicyURL": "https://kampalo.com/privacy",
+        "termsOfServiceURL": "https://kampalo.com/terms",
+        "defaultPrompt": [
+          "How did my Google Ads campaigns perform this week?",
+          "Compare my Google and Meta ROAS this month.",
+          "Which campaigns should I pause?"
+        ],
+        "brandColor": "#2563EB",
+        "brandColorDark": "#4F86F7",
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/logo.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Google Ads performance brief",
+              "prompt": "How did my Google Ads campaigns perform in the last 7 days?",
+              "tools_triggered": "google_ads_get_summary, google_ads_get_campaigns",
+              "expected_behavior": "Summarize spend, clicks, conversions and ROAS for the demo account's Google Ads campaigns over the last 7 days, naming the best and worst campaigns."
+            },
+            {
+              "description": "Cross-platform comparison",
+              "prompt": "Compare my Google Ads and Meta Ads ROAS this month.",
+              "tools_triggered": "meta_insights_compare_platforms",
+              "expected_behavior": "Show spend, revenue and ROAS side by side for Google Ads and Meta Ads this month and say which platform is more efficient."
+            },
+            {
+              "description": "Search Console queries",
+              "prompt": "What are my top Search Console queries for the last 28 days?",
+              "tools_triggered": "search_get_top_queries",
+              "expected_behavior": "List the top queries with clicks, impressions, CTR and average position from the demo site's Search Console data."
+            },
+            {
+              "description": "Propose a pause without changing anything",
+              "prompt": "Propose pausing my lowest-ROAS Meta campaign.",
+              "tools_triggered": "meta_ads_get_campaigns, automate_propose_pause",
+              "expected_behavior": "Find the Meta campaign with the lowest ROAS and create a pending pause proposal. The campaign keeps running until the user explicitly confirms the proposal."
+            },
+            {
+              "description": "List alert rules",
+              "prompt": "Which ads alert rules do I have set up?",
+              "tools_triggered": "automate_list_alert_rules",
+              "expected_behavior": "List the demo account's ads alert rules with their metric, threshold and status."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unsupported payment",
+              "prompt": "Buy $500 of ad credit with my saved card."
+            },
+            {
+              "description": "Access outside the connected account",
+              "prompt": "Show me my competitor's Google Ads campaigns and budgets."
+            },
+            {
+              "description": "Unrelated request",
+              "prompt": "Write me a poem about the ocean."
+            }
+          ]
+        },
+        "demo_recording_url": "REPLACE_WITH_DEMO_VIDEO_URL",
+        "commerce": false,
+        "commerce_description": "Kampalo does not sell products or process payments in ChatGPT. Budget changes only adjust existing ad budgets after the user confirms."
+      },
+      "publication": {
+        "countries": ["US", "GB"],
+        "release_notes": "Initial release: ads, SEO, GA4 and Shopify briefs, confirmed campaign pauses and budget changes, and alert and ROAS rules."
+      }
+    }
+  }
+}
