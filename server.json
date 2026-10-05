@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.kampalo/kampalo",
+  "title": "Kampalo",
+  "description": "Google Ads, Meta Ads, GA4, Search Console and Shopify insights, alerts, ROAS rules and ad actions.",
+  "version": "0.3.0",
+  "websiteUrl": "https://kampalo.com/kai/mcp",
+  "repository": {
+    "url": "https://github.com/Tekreign/kampalo-cursor-plugin",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://be.kampalo.com/mcp"
+    }
+  ]
+}
