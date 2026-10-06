@@ -1,5 +1,7 @@
 # Kampalo plugin for Grok Build
 
+[![Kampalo MCP connector – tool definition quality and endpoint health on Glama](https://glama.ai/mcp/connectors/com.kampalo/kampalo/badges/score.svg)](https://glama.ai/mcp/connectors/com.kampalo/kampalo)
+
 [Grok Build](https://github.com/xai-org/plugin-marketplace) plugin that connects to Kampalo’s hosted FastMCP server. Grok can **read synced ads/SEO/GA4 data** and run the automations Kampalo already has: pause proposals, ads/SEO alerts, ROAS pause rules, and report JSON.
 
 This plugin does not add product APIs. It wires Grok to `python manage.py run_mcp_server`:
