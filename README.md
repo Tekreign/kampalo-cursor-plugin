@@ -68,12 +68,9 @@ Run `/mcp`, choose `kampalo`, and sign in to Kampalo when prompted.
 | --- | --- |
 | MCP endpoint | `https://be.kampalo.com/mcp` (streamable HTTP) |
 | Auth | `Authorization: Bearer ${KAMPALO_MCP_API_KEY}` |
-| Secret | Personal `kmp_…` key (Settings → API Keys), or the operator `MCP_API_KEY`. Required when the server has auth enabled (`DEBUG=False`). |
-| Not this URL | `https://be.kampalo.com/api` — Django REST, not MCP |
+| Secret | Personal `kmp_…` key from Kampalo **Settings → API Keys** (Starter and Enterprise). Scoped to your account, plan and role. |
 
 The plugin talks only to that MCP host. It does not read local `.env` / SSH keys or send telemetry elsewhere.
-
-Local Compose (`docker compose up`) exposes MCP at **http://127.0.0.1:8100/mcp**. To point Grok at it, override the server URL in `.mcp.json` for that session.
 
 ## What Grok can do
 
@@ -144,34 +141,6 @@ Expect `automate_upsert_automation_rule` with `dry_run=true`, `is_active=false`.
 **Failure**
 
 Stop MCP and ask again. The bot must not claim a pause or a saved rule.
-
-## xAI marketplace entry (when submitting)
-
-Remote source, SHA-pinned. Do not vendor files into `xai-org/plugin-marketplace`. After pushing this folder to a public repo:
-
-```bash
-git ls-remote https://github.com/Tekreign/kampalo-cursor-plugin.git HEAD
-```
-
-Add one object to their `.grok-plugin/marketplace.json`:
-
-```json
-{
-  "name": "kampalo",
-  "description": "Kampalo ads and SEO workspace for Grok Build. Brief synced Google Ads, Meta Ads, GA4, and Search Console; propose and confirm campaign pauses; manage ads/SEO alerts and ROAS pause rules; generate report JSON.",
-  "category": "development",
-  "source": {
-    "source": "url",
-    "url": "https://github.com/Tekreign/kampalo-cursor-plugin.git",
-    "sha": "<40-char lowercase commit sha>"
-  },
-  "homepage": "https://app.kampalo.com",
-  "keywords": ["kampalo", "kampalo ads", "kampalo google ads", "kampalo meta ads", "kampalo kai"],
-  "domains": ["kampalo.com", "app.kampalo.com", "be.kampalo.com"]
-}
-```
-
-Then in that fork: `python3 scripts/generate-plugin-index.py` and `python3 scripts/validate-catalog.py`. xAI flags branded plugins sourced from a personal GitHub account — move the plugin repo under a Kampalo org before the PR if possible.
 
 ## License
 
